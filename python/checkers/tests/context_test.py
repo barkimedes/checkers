@@ -27,7 +27,7 @@ class _DummyTestCase(object):
 
 class _DummyTestRun(object):
   """Dummy test run class since we don't use it for anything useful."""
-  pass
+  variables = checkers.Registry()
 
 
 @checkers.test

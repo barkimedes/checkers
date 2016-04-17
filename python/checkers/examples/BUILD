@@ -1,5 +1,3 @@
-# Copyright 2015 Google Inc. All Rights Reserved.
-#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -14,6 +12,9 @@
 
 # Description:
 #   Examples showing how to use different features of Checkers.
+
+# Copyright 2015 Google Inc. All Rights Reserved.
+#
 
 test_suite(
     name = "small_tests",
@@ -88,4 +89,3 @@ py_test(
         "//checkers/runners/pyunit",
     ],
 )
-

@@ -17,7 +17,16 @@
 #   based tests. Namely, you can define your tests as parameterized functions
 #   and Checkers does the work of mapping the test's parameterizations and
 #   and dependencies to the parameters in the test. For more information, see
-#   the documentation at TODO(barkimedes): link to documentation here.
+#   the documentation at https://github.com/google/checkers.
+
+test_suite(
+    name = "all_tests",
+    tests = [
+        "//checkers/examples:small_tests",
+        "//checkers/tests:small_tests",
+    ],
+    visibility = ["//visibility:public"],
+)
 
 py_library(
     name = "checkers",
@@ -36,4 +45,3 @@ py_library(
     visibility = ["//visibility:public"],
     deps = ["//checkers/asserts"],
 )
-

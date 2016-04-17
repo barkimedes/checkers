@@ -22,6 +22,7 @@ from os import path
 import sys
 import traceback
 
+from checkers import asserts as asserts_module
 import context
 import modules
 import parameterization
@@ -33,7 +34,6 @@ import test_run
 import test_suite
 
 # Default extensions/modules
-from checkers import asserts as asserts_module
 asserts = asserts_module
 
 # pylint: disable=invalid-name

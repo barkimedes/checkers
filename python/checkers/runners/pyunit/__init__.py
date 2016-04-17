@@ -12,4 +12,13 @@
 #     See the License for the specific language governing permissions and
 #     limitations under the License.
 
-from pyunit import *
+# Description:
+#   The Checkers testing framework provides an alternative to writing PyUnit-
+#   based tests. Namely, you can define your tests as parameterized functions
+#   and Checkers does the work of mapping the test's parameterizations and
+#   and dependencies to the parameters in the test. For more information, see
+#   the documentation at https://github.com/google/checkers.
+
+"""Exposes pyunit as a package."""
+
+from pyunit import *  # pylint: disable=wildcard-import

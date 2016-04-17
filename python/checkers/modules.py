@@ -40,6 +40,7 @@ def find_module_name(module, fully_qualified=True):
     return path.splitext(path.basename(module.__file__))[0]
   return name
 
+
 def find_module_name_from_name(module_name, fully_qualified=True):
   """Function that will find the name (sort or fully-qualified) for the module.
 
@@ -75,7 +76,7 @@ def tests_from_module(module, include_imports=False):
   test_registry = registry.AutoKeyRegistry(lambda test: test.full_name)
   for attr_name in dir(module):
     attr = getattr(module, attr_name)
-    if type(attr) is test.Test:
+    if type(attr) is test.Test:  # pylint: disable=unidiomatic-typecheck
       # TODO(barkimedes): support tests that are definitions of test classes
       # rather than just instances.
       raise NotImplementedError('Cannot load Test class definitions')

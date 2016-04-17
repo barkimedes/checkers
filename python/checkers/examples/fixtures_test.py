@@ -62,7 +62,8 @@ def zero_division_setup():
 @checkers.test
 def test_divide_2_0():
   with asserts.expect_exception(ZeroDivisionError):
-    2 / 0
+    2 / 0  # pylint: disable=pointless-statement
+
 
 @checkers.teardown(curse_oddness)
 @checkers.test

@@ -13,13 +13,8 @@
 #     limitations under the License.
 
 # Description:
-#   The asserts package can be used as a built-in standalone set of assertions
-#   that can be handy when writing Checkers tests. It is not necessary to use
-#   the asserts package; if there is some other preferred assert engine, that
-#   may certainly be used instead. For example, PyHamcrest is a good option.
-
-py_library(
-    name = "asserts",
-    srcs = ["__init__.py"],
-    visibility = ["//visibility:public"],
-)
+#   The Checkers testing framework provides an alternative to writing PyUnit-
+#   based tests. Namely, you can define your tests as parameterized functions
+#   and Checkers does the work of mapping the test's parameterizations and
+#   and dependencies to the parameters in the test. For more information, see
+#   the documentation at https://github.com/google/checkers.

@@ -19,9 +19,9 @@
 test_suite(
     name = "all_tests",
     tests = [
-        "//examples:small_tests",
-        "//tests:small_tests",
-        "//tests/asserts:small_tests",
+        "//checkers/examples:small_tests",
+        "//checkers/tests:small_tests",
+        "//checkers/tests/asserts:small_tests",
     ],
 )
 

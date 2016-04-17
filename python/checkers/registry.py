@@ -45,9 +45,12 @@ def to_identifier(raw_string):
 class Registry(collections.MutableMapping):
   """A Registry is basically a dictionary where keys also become attributes."""
 
-  def __init__(self):
+  def __init__(self, other_registries=None):
     """Initializes a new instance of a registry."""
     self._values = collections.OrderedDict()
+    if not other_registries:
+      other_registries = []
+    self.other_registries = other_registries
 
   @staticmethod
   def from_dict(source):
@@ -70,6 +73,10 @@ class Registry(collections.MutableMapping):
 
   def __getitem__(self, key):
     """Gets the item with the given key from the registry."""
+    if key not in self._values:
+      for other_registry in self.other_registries:
+        if key in other_registry:
+          return other_registry[key]
     return self._values[key]
 
   def __setitem__(self, key, value):
@@ -178,4 +185,3 @@ class SuperRegistry(Registry):
     if key not in self.keys():
       super(SuperRegistry, self).register(key, self.subregistry_factory())
     self[key].register(value)
-

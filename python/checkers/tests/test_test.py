@@ -51,6 +51,7 @@ def test_test_call_not_implemented():
   with asserts.expect_exception(NotImplementedError):
     t()
 
+
 @checkers.test
 def test_test_required_variables_not_implemented():
   t = Test('foo', 'bar.foo', 'foo bar test')

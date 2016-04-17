@@ -58,6 +58,7 @@ import unittest
 
 import checkers
 
+
 def run_test_run(test_run):
   """Runs all of the tests in the test run and returns the results in suites.
 
@@ -121,8 +122,8 @@ def create_pyunit_test_method(result):
 
   test_method = pyunit_test_method
   test_method.func_name = str(result.context.test_case.name)
-  if not test_method.func_name.startswith('test'):
-    test_method.func_name = 'test_%s' % test_method.func_name
+  # if not test_method.func_name.startswith('test'):
+  #   test_method.func_name = 'test_%s' % test_method.func_name
   test_method.func_doc = result.context.test_case.description
   return test_method
 
@@ -155,8 +156,9 @@ def create_pyunit_test_suite(parent_module_name, suite_name, test_run,
   return cls
 
 
-def create_pyunit_test_suites(module, checkers_test_runs, checkers_test_results,
-                              test_suite_type, pyunit_discovered_tests=None):
+def create_pyunit_test_suites(module, checkers_test_runs, global_suite_only,
+                              checkers_test_results, test_suite_type,
+                              pyunit_discovered_tests=None):
   """Creates a PyUnit TestSuite that contains all of the real test suites.
 
   Note on terminiology: in the unittest module, all of the tests and test suites
@@ -168,6 +170,8 @@ def create_pyunit_test_suites(module, checkers_test_runs, checkers_test_results,
   Args:
     module: (module) Module where the generated test suites should be placed.
     checkers_test_runs: ([TestRun]) Set of Checkers test runs to execute.
+    global_suite_only: (bool) Whether just the global suite should be reported
+        or if all of the suites should be reported.
     checkers_test_results: (Registry(str, TestResultRegistry)) See run_test_run.
     test_suite_type: (type) Base type for the generated PyUnit test cases.
     pyunit_discovered_tests: (unittest.TestSuite): Previously-discovered tests.
@@ -183,14 +187,16 @@ def create_pyunit_test_suites(module, checkers_test_runs, checkers_test_results,
   for run in checkers_test_runs:
     result_suites = checkers_test_results[run.name]
     for suite_name, results  in result_suites.iteritems():
-      pyunit_test_suite = create_pyunit_test_suite(
-          module.__name__, suite_name, run, results, test_suite_type)
-      pyunit_suite.addTest(loader.loadTestsFromTestCase(pyunit_test_suite))
+      if not global_suite_only or suite_name.endswith('.all'):
+        pyunit_test_suite = create_pyunit_test_suite(
+            module.__name__, suite_name, run, results, test_suite_type)
+        pyunit_suite.addTest(loader.loadTestsFromTestCase(pyunit_test_suite))
   return pyunit_suite
 
 
-def load_checkers_tests(module, test_runs, checkers_test_results,
-                        test_suite_type, include_pyunit_tests):
+def load_checkers_tests(module, test_runs, global_suite_only,
+                        checkers_test_results, test_suite_type,
+                        include_pyunit_tests):
   """Load Checkers tests so that they'll be discoverable by PyUnit.
 
   Using the load_tests protocol, this will register a load_tests function in the
@@ -199,6 +205,8 @@ def load_checkers_tests(module, test_runs, checkers_test_results,
   Args:
     module: (module) Module where the generated test suites should be placed.
     test_runs: ([TestRun]) Set of Checkers test runs to execute.
+    global_suite_only: (bool) Whether just the global suite should be reported
+        or if all of the suites should be reported.
     checkers_test_results: (Registry(str, TestResultRegistry)) See run_test_run.
     test_suite_type: (type) Base type for the generated PyUnit test cases.
     include_pyunit_tests: (bool): Include any discovered PyUnit-based tests.
@@ -210,7 +218,8 @@ def load_checkers_tests(module, test_runs, checkers_test_results,
     result = None
     try:
       result = create_pyunit_test_suites(
-          module, test_runs, checkers_test_results, test_suite_type, tests)
+          module, test_runs, global_suite_only, checkers_test_results,
+          test_suite_type, tests)
     except:
       traceback.print_exc()
       raise
@@ -218,9 +227,9 @@ def load_checkers_tests(module, test_runs, checkers_test_results,
   setattr(module, 'load_tests', pyunit_load_tests)
 
 
-def main(test_runs=None, test_run=None, module=None,
+def main(test_runs=None, test_run=None, module=None, global_suite_only=False,
          include_pyunit_tests=True, main_module=unittest,
-         test_suite_type=unittest.TestCase,
+         test_suite_type=unittest.TestCase, test_method_prefix='test',
          *args, **kwargs):
   """Main function that will run both Checkers and PyUnit tests.
 
@@ -228,9 +237,12 @@ def main(test_runs=None, test_run=None, module=None,
     test_runs: ([TestRun]) Set of Checkers test runs to execute.
     test_run: (TestRun) A single Checkers test run to execute.
     module: (module) Module where the generated test suites should be placed.
+    global_suite_only: (bool) Whether just the global suite should be reported
+        or if all of the suites should be reported.
     include_pyunit_tests: (bool): Include any discovered PyUnit-based tests.
     main_module: (module) Module that defines the PyUnit main method to use.
     test_suite_type: (type) Base type for the generated PyUnit test cases.
+    test_method_prefix: (string) The prefix for all test cases.
     *args: (tuple) Positional arguments to pass through to the real main.
     **kwargs: (dict) Keyword arguments to pass through to the real main.
 
@@ -250,8 +262,10 @@ def main(test_runs=None, test_run=None, module=None,
   for run in test_runs:
     checkers_results[run.name] = run_test_run(run)
 
+  loader = unittest.defaultTestLoader
+  loader.testMethodPrefix = test_method_prefix
   # Load the test results into the PyUnit test suites for discovery.
-  load_checkers_tests(module, test_runs, checkers_results,
+  load_checkers_tests(module, test_runs, global_suite_only, checkers_results,
                       test_suite_type=test_suite_type,
                       include_pyunit_tests=include_pyunit_tests)
   return main_module.main(*args, **kwargs)

@@ -47,7 +47,11 @@ class Context(object):
     # The test run that owns/controls the test.
     self.test_run = test_run
     # Set of variables available for the test.
-    self.variables = registry.Registry()
+    other_registries = []
+    if self.test_run:
+      other_registries.append(self.test_run.variables)
+    self.variables = registry.Registry(
+        other_registries=other_registries)
     for key, value in variables.iteritems():
       self.variables.register(key, value)
     # Of course, the context itself must be available to tests.
