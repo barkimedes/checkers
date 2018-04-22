@@ -30,13 +30,13 @@ from checkers.runners import pyunit
 @checkers.test
 def test_subtract(calculator, x, y, expected):
   asserts.are_equal(calculator.subtract(x, y), expected)
-  print '%d - %d = %d' % (x, y, expected)
+  print('%d - %d = %d' % (x, y, expected))
 
 
 @checkers.test
 def test_add(calculator, x, y, expected):
   asserts.are_equal(calculator.add(x, y), expected)
-  print '%d + %d = %d' % (x, y, expected)
+  print('%d + %d = %d' % (x, y, expected))
 
 
 # Since the parameterizations are defined in a function, you can imagine using

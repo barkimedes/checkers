@@ -13,38 +13,38 @@
 #     limitations under the License.
 
 cd $(dirname $(dirname "$(readlink -f "$0")"))
-export PYTHONPATH=$PWD:$PYTHONPATH
+export PYTHONPATH=$PWD/python:$PYTHONPATH
 
 echo 'python/checkers/tests/checkers_test.py'
-python python/checkers/tests/checkers_test.py
+python3 python/checkers/tests/checkers_test.py
 
 echo 'python/checkers/tests/context_test.py'
-python python/checkers/tests/context_test.py
+python3 python/checkers/tests/context_test.py
 
 echo 'python/checkers/tests/modules_test.py'
-python python/checkers/tests/modules_test.py
+python3 python/checkers/tests/modules_test.py
 
 echo 'python/checkers/tests/parameterization_test.py'
-python python/checkers/tests/parameterization_test.py
+python3 python/checkers/tests/parameterization_test.py
 
 echo 'python/checkers/tests/registry_test.py'
-python python/checkers/tests/registry_test.py
+python3 python/checkers/tests/registry_test.py
 
 echo 'python/checkers/tests/test_case_test.py'
-python python/checkers/tests/test_case_test.py
+python3 python/checkers/tests/test_case_test.py
 
 echo 'python/checkers/tests/test_result_test.py'
-python python/checkers/tests/test_result_test.py
+python3 python/checkers/tests/test_result_test.py
 
 echo 'python/checkers/tests/test_run_test.py'
-python python/checkers/tests/test_run_test.py
+python3 python/checkers/tests/test_run_test.py
 
 echo 'python/checkers/tests/test_suite_test.py'
-python python/checkers/tests/test_suite_test.py
+python3 python/checkers/tests/test_suite_test.py
 
 echo 'python/checkers/tests/test_test.py'
-python python/checkers/tests/test_test.py
+python3 python/checkers/tests/test_test.py
 
 echo 'python/checkers/tests/asserts/asserts_test.py'
-python python/checkers/tests/asserts/asserts_test.py
+python3 python/checkers/tests/asserts/asserts_test.py
 

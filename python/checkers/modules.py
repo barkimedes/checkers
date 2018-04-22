@@ -17,8 +17,8 @@
 from os import path
 import sys
 
-import registry
-import test
+from . import registry
+from . import test
 
 
 def find_module_name(module, fully_qualified=True):
@@ -83,4 +83,3 @@ def tests_from_module(module, include_imports=False):
     if isinstance(attr, test.Test):
       test_registry.register(attr)
   return test_registry
-

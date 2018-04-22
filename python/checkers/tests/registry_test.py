@@ -24,8 +24,8 @@ from checkers.runners import pyunit
 def test_registry_init():
   reg = registry.Registry()
   asserts.is_empty(reg)
-  asserts.is_empty(reg.keys())
-  asserts.is_empty(reg.values())
+  asserts.is_empty(list(reg.keys()))
+  asserts.is_empty(list(reg.values()))
 
 
 @checkers.test
@@ -65,7 +65,7 @@ def test_registry_keys():
   reg.register('foo', 2)
   reg.register('bar', 4)
   reg.register('baz.quux', 8)
-  asserts.are_equal(reg.keys(), ['foo', 'bar', 'baz.quux'])
+  asserts.are_equal(list(reg.keys()), ['foo', 'bar', 'baz.quux'])
 
 
 @checkers.test
@@ -74,7 +74,7 @@ def test_registry_values():
   reg.register('foo', 2)
   reg.register('bar', 4)
   reg.register('baz.quux', 8)
-  asserts.are_equal(reg.values(), [2, 4, 8])
+  asserts.are_equal(list(reg.values()), [2, 4, 8])
 
 
 @checkers.test

@@ -21,41 +21,41 @@ from checkers.runners import pyunit
 
 
 def logging_test_run_setup(test_run):
-  print '#' * 80
-  print 'Starting test run:', test_run.name
+  print('#' * 80)
+  print('Starting test run:', test_run.name)
 
 
 def logging_test_run_teardown(test_run):
-  print 'Finishing test run:', test_run.name
-  print '#' * 80
+  print('Finishing test run:', test_run.name)
+  print('#' * 80)
 
 
 def register_calculator(context):
   calc = Calculator()
-  print 'Registering calculator:', context.test_case.name, calc.__class__
+  print('Registering calculator:', context.test_case.name, calc.__class__)
   context.variables.register('calculator', calc)
 
 
 def logging_test_case_setup(context):
-  print '*' * 80
-  print 'Starting test case:', context.test_case.full_name
+  print('*' * 80)
+  print('Starting test case:', context.test_case.full_name)
 
 
 def logging_test_case_teardown(context):
-  print 'Finishing test case:', context.test_case.full_name
-  print '*' * 80
+  print('Finishing test case:', context.test_case.full_name)
+  print('*' * 80)
 
 
 def celebrate_evenness(context):
-  print 'Awesome!! %s only has even numbers!!' % context.test_case.name
+  print('Awesome!! %s only has even numbers!!' % context.test_case.name)
 
 
 def curse_oddness(context):
-  print 'Phooey!! %s has odd numbers :P' % context.test_case.name
+  print('Phooey!! %s has odd numbers :P' % context.test_case.name)
 
 
 def zero_division_setup():
-  print 'Oops, dividing by zero in this test'
+  print('Oops, dividing by zero in this test')
 
 
 @checkers.setup(celebrate_evenness, zero_division_setup)
@@ -69,21 +69,21 @@ def test_divide_2_0():
 @checkers.test
 def test_add_1_1_2(calculator):
   asserts.are_equal(calculator.add(2, 2), 4)
-  print '1 + 1 = 2'
+  print('1 + 1 = 2')
 
 
 @checkers.setup(celebrate_evenness)
 @checkers.test
 def test_add_2_2_4(calculator):
   asserts.are_equal(calculator.add(2, 2), 4)
-  print '2 + 2 = 4'
+  print('2 + 2 = 4')
 
 
 @checkers.setup(celebrate_evenness)
 @checkers.test
 def test_add_4_8_12(calculator):
   asserts.are_equal(calculator.add(4, 8), 12)
-  print '4 + 8 = 12'
+  print('4 + 8 = 12')
 
 
 def create_test_run():

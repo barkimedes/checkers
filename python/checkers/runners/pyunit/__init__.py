@@ -21,4 +21,4 @@
 
 """Exposes pyunit as a package."""
 
-from pyunit import *  # pylint: disable=wildcard-import
+from .pyunit import *  # pylint: disable=wildcard-import

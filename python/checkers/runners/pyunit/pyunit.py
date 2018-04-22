@@ -74,19 +74,19 @@ def run_test_run(test_run):
   """
   # Run all of the tests and get the test results.
   results = checkers.Registry()
-  for setup in test_run.setup.values():
+  for setup in list(test_run.setup.values()):
     setup(test_run)
-  for test_case in test_run.generate_test_cases.values():
+  for test_case in list(test_run.generate_test_cases.values()):
     if test_case.full_name not in results:
       results[test_case.full_name] = test_case()
     result = results[test_case.full_name]
-  for teardown in test_run.teardown.values():
+  for teardown in list(test_run.teardown.values()):
     teardown(test_run)
 
   # Group all of the test results by their test suites.
   suites = checkers.Registry()
-  for result in results.values():
-    for suite in result.context.test_case.test_suites.values():
+  for result in list(results.values()):
+    for suite in list(result.context.test_case.test_suites.values()):
       suite_name = test_run.name
       if suite.name:
         suite_name = '%s.%s' % (test_run.name, suite.name)
@@ -118,13 +118,13 @@ def create_pyunit_test_method(result):
     thinking it just ran a test. :P
     """
     if result.exc_info:
-      raise result.exc_info[1], None, result.exc_info[2]
+      raise result.exc_info[1].with_traceback(result.exc_info[2])
 
   test_method = pyunit_test_method
-  test_method.func_name = str(result.context.test_case.name)
+  test_method.__name__ = str(result.context.test_case.name)
   # if not test_method.func_name.startswith('test'):
   #   test_method.func_name = 'test_%s' % test_method.func_name
-  test_method.func_doc = result.context.test_case.description
+  test_method.__doc__ = result.context.test_case.description
   return test_method
 
 
@@ -146,7 +146,7 @@ def create_pyunit_test_suite(parent_module_name, suite_name, test_run,
     A unittest.TestCase class containing the test functions for the suite.
   """
   test_class_attrs = {}
-  for result in test_results.values():
+  for result in list(test_results.values()):
     test_name = result.context.test_case.name
     test_class_attrs[test_name] = create_pyunit_test_method(result)
   test_class_attrs['test_run'] = test_run
@@ -186,7 +186,7 @@ def create_pyunit_test_suites(module, checkers_test_runs, global_suite_only,
   loader = unittest.defaultTestLoader
   for run in checkers_test_runs:
     result_suites = checkers_test_results[run.name]
-    for suite_name, results  in result_suites.iteritems():
+    for suite_name, results  in result_suites.items():
       if not global_suite_only or suite_name.endswith('.all'):
         pyunit_test_suite = create_pyunit_test_suite(
             module.__name__, suite_name, run, results, test_suite_type)
