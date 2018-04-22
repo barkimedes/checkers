@@ -21,8 +21,8 @@ setup(
     version='2.0',
     description='Functional, dependency-injected test framework for Python.',
     maintainer='Sabrina Williams',
-    maintainer_email='checkers-team@googlegroups.com',
-    url='https://github.com/google/checkers',
+    maintainer_email='barkimedes+checkers@gmail.com',
+    url='https://github.com/barkimedes/checkers',
     package_dir={
         'checkers': 'checkers',
     },
