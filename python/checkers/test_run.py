@@ -16,10 +16,10 @@
 
 import sys
 
-import context
-import modules
-import registry
-import test_suite
+from . import context
+from . import modules
+from . import registry
+from . import test_suite
 
 
 class _TestRunSuiteRegistry(registry.AutoKeyRegistry):
@@ -74,7 +74,7 @@ class TestRun(object):
       module = sys.modules[module_name]
     test_run = TestRun(modules.find_module_name(module))
     tests = modules.tests_from_module(module)
-    for test in tests.values():
+    for test in list(tests.values()):
       test_run.tests.register(test)
     return test_run
 
@@ -122,11 +122,11 @@ class TestRun(object):
     """
     global_suite = test_suite.TestSuite('all', 'Suite containing all tests.')
     test_case_registry = registry.AutoKeyRegistry(lambda tc: tc.full_name)
-    for original_test in self.tests.values():
+    for original_test in list(self.tests.values()):
       test = original_test.clone()
       # Add all of the parameterizations just on the test to the test in the
       # test run.
-      for parameterization in test.decorator_parameterizations.values():
+      for parameterization in list(test.decorator_parameterizations.values()):
         self.parameterizations.register(test.full_name, parameterization)
       # Make sure that the decorator setup functions are called closer to the
       # test than the test run's test case setup functions.
@@ -141,18 +141,18 @@ class TestRun(object):
       if test.full_name in self.parameterizations:
         params = self.parameterizations[test.full_name]
       test_cases = test.generate_test_cases(new_context_factory, params)
-      for test_case in test_cases.values():
+      for test_case in list(test_cases.values()):
         # Replace the empty suite provided by parameterizations with the actual
         # suite from the test run.
         for suite_name in test_case.test_suites:
           self.test_suites[suite_name].register(test_case)
           test_case.test_suites.register(self.test_suites[suite_name])
         test_case.test_suites.register(global_suite)
-        for suite in self.test_suites.values():
+        for suite in list(self.test_suites.values()):
           if test.full_name in suite or test_case.full_name in suite:
             test_case.test_suites.register(suite)
         test_case_registry.register(test_case)
-        for key, value in self.variables.iteritems():
+        for key, value in self.variables.items():
           test_case.context.variables.register(key, value)
     return test_case_registry
 

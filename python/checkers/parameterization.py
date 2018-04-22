@@ -14,7 +14,7 @@
 
 """Defines mechanism for defining parameterizations for a test."""
 
-import registry
+from . import registry
 
 
 class Parameterization(object):
@@ -58,7 +58,7 @@ class Parameterization(object):
     self.variables = registry.Registry()
     self.suites = set()
     if variables:
-      for key, value in variables.iteritems():
+      for key, value in variables.items():
         if key == 'test_suites':
           for name in value:
             self.suites.add(name)

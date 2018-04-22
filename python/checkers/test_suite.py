@@ -19,8 +19,8 @@ test will become multiple test cases, then all of those test cases will be in
 the original test's suite.
 """
 
-import modules
-import registry
+from . import modules
+from . import registry
 
 
 class TestSuite(registry.AutoKeyRegistry):
@@ -47,7 +47,7 @@ class TestSuite(registry.AutoKeyRegistry):
     if hasattr(module, '__doc__'):
       description = module.__doc__
     suite = TestSuite(name, description=description)
-    for test in modules.tests_from_module(module).values():
+    for test in list(modules.tests_from_module(module).values()):
       suite.register(test)
     return suite
 
@@ -79,7 +79,7 @@ class TestSuite(registry.AutoKeyRegistry):
       test_run: (TestRun) The test run to add to the test suite.
     """
     self._test_run = test_run
-    for test in self.values():
+    for test in list(self.values()):
       self.test_run.tests.register(test)
 
   def register(self, test):

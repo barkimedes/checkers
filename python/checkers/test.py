@@ -16,10 +16,10 @@
 
 import inspect
 
-import modules
-import registry
-from test_case import TestCase
-from test_suite import TestSuite
+from . import modules
+from . import registry
+from .test_case import TestCase
+from .test_suite import TestSuite
 
 
 class Test(object):
@@ -33,9 +33,9 @@ class Test(object):
       full_name: (string) The fully-qualified name of the test.
       description: (string) A description of the test.
     """
-    self.name = unicode(name)
-    self.full_name = unicode(full_name)
-    self.description = unicode(description)
+    self.name = str(name)
+    self.full_name = str(full_name)
+    self.description = str(description)
     self.decorator_parameterizations = registry.AutoKeyRegistry(
         lambda param: param.name)
     self.setup = registry.AutoKeyRegistry(lambda func: func.__name__)
@@ -86,12 +86,12 @@ class Test(object):
       return test_cases
     # It is a parameterized test, so we need to generate multiple test cases;
     # one for each parameterization.
-    for suffix, param in parameterizations.iteritems():
+    for suffix, param in parameterizations.items():
       name = '%s_%s' % (self.name, suffix)
       full_name = '%s_%s' % (self.full_name, suffix)
       test_case = TestCase(self, context_factory, name=name,
                            full_name=full_name, description=self.description)
-      for key, value in param.variables.iteritems():
+      for key, value in param.variables.items():
         test_case.context.variables.register(key, value)
       for suite_name in param.suites:
         test_case.test_suites.register(TestSuite(suite_name))
@@ -108,11 +108,11 @@ class FunctionTest(Test):
     Args:
       test_function: (callable) The function that the test is wrapping.
     """
-    name = test_function.func_name
+    name = test_function.__name__
     full_name = '%s.%s' % (
         modules.find_module_name_from_name(test_function.__module__),
-        test_function.func_name)
-    description = test_function.func_doc
+        test_function.__name__)
+    description = test_function.__doc__
     super(FunctionTest, self).__init__(name, full_name, description)
     self.function = test_function
 

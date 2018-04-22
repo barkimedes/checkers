@@ -14,7 +14,7 @@
 
 """Context provides environmental information for a test."""
 
-import registry
+from . import registry
 
 
 class Context(object):
@@ -52,7 +52,7 @@ class Context(object):
       other_registries.append(self.test_run.variables)
     self.variables = registry.Registry(
         other_registries=other_registries)
-    for key, value in variables.iteritems():
+    for key, value in variables.items():
       self.variables.register(key, value)
     # Of course, the context itself must be available to tests.
     self.variables.register('context', self)

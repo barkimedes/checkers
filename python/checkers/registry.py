@@ -37,7 +37,7 @@ def to_identifier(raw_string):
     string: The (hopefully) valid Python identifier with translated characters.
   """
   result = raw_string
-  for original, replacement in _IDENTIFIER_REPLACEMENTS.iteritems():
+  for original, replacement in _IDENTIFIER_REPLACEMENTS.items():
     result = result.replace(original, replacement)
   return result
 
@@ -63,7 +63,7 @@ class Registry(collections.MutableMapping):
       Registry: A new registry populated with the source elements.
     """
     registry = Registry()
-    for k, v in source.iteritems():
+    for k, v in source.items():
       registry.register(k, v)
     return registry
 
@@ -118,7 +118,7 @@ class Registry(collections.MutableMapping):
       source: (dict) The dictionary containing items to copy into this registry.
       replace_existing: (bool) Whether to overwrite existing entries.
     """
-    for key, value in source.iteritems():
+    for key, value in source.items():
       if key in self and not replace_existing:
         continue
       self.register(key, value)
@@ -162,7 +162,7 @@ class AutoKeyRegistry(Registry):
       source: (dict) The dictionary containing items to copy into this registry.
       replace_existing: (bool) Whether to overwrite existing entries.
     """
-    for key, value in source.iteritems():
+    for key, value in source.items():
       if key in self and not replace_existing:
         continue
       self.register(value)
@@ -182,6 +182,6 @@ class SuperRegistry(Registry):
     self.subregistry_factory = subregistry_factory
 
   def register(self, key, value):
-    if key not in self.keys():
+    if key not in list(self.keys()):
       super(SuperRegistry, self).register(key, self.subregistry_factory())
     self[key].register(value)

@@ -23,15 +23,15 @@ import sys
 import traceback
 
 from checkers import asserts as asserts_module
-import context
-import modules
-import parameterization
-import registry
-import test as test_module
-import test_case
-import test_result
-import test_run
-import test_suite
+from . import context
+from . import modules
+from . import parameterization
+from . import registry
+from . import test as test_module
+from . import test_case
+from . import test_result
+from . import test_run
+from . import test_suite
 
 # Default extensions/modules
 asserts = asserts_module
@@ -172,7 +172,7 @@ def parameterize(parameterizations):
     function: Decorator that will apply parameterizations to the test.
   """
   def parameterize_decorator(checkers_test):
-    for name, params in parameterizations.iteritems():
+    for name, params in parameterizations.items():
       p = parameterization.Parameterization(name, params)
       checkers_test.decorator_parameterizations.register(p)
     return checkers_test

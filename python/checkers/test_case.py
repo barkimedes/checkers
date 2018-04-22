@@ -21,8 +21,8 @@ been applied. A test case's __call__ function does not take any arguments.
 import inspect
 import sys
 
-import registry
-import test_result
+from . import registry
+from . import test_result
 
 
 class TestCase(object):
@@ -59,7 +59,7 @@ class TestCase(object):
     exception = None
     exc_info = None
     try:
-      for setup in self.test.setup.values():
+      for setup in list(self.test.setup.values()):
         if inspect.getargspec(setup).args:
           setup(self.context)
         else:
@@ -73,7 +73,7 @@ class TestCase(object):
       exception = ex
       exc_info = sys.exc_info()
     finally:
-      for teardown in self.test.teardown.values():
+      for teardown in list(self.test.teardown.values()):
         try:
           if inspect.getargspec(teardown).args:
             teardown(self.context)
