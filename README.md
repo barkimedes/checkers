@@ -20,7 +20,7 @@ simple tests is still super simple.
 
 ## Requirements
 
-Python 2.7
+Python 2.7 or Python 3
 
 ## Installation
 
