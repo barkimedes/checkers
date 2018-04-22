@@ -56,4 +56,3 @@ class Context(object):
       self.variables.register(key, value)
     # Of course, the context itself must be available to tests.
     self.variables.register('context', self)
-

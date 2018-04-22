@@ -12,7 +12,8 @@
 #     See the License for the specific language governing permissions and
 #     limitations under the License.
 
-export PYTHONPATH=$PWD/python:$PYTHONPATH
+cd $(dirname $(dirname "$(readlink -f "$0")"))
+export PYTHONPATH=$PWD:$PYTHONPATH
 
 echo 'python/checkers/tests/checkers_test.py'
 python python/checkers/tests/checkers_test.py
