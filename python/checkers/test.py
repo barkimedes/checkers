@@ -15,11 +15,18 @@
 """Module defining the concept of a test, which represents a test's steps."""
 
 import inspect
+import os
 
-from . import modules
-from . import registry
-from .test_case import TestCase
-from .test_suite import TestSuite
+if 'RUNFILES_DIR' in os.environ:
+  import modules
+  import registry
+  from test_case import TestCase
+  from test_suite import TestSuite
+else:
+  from . import modules
+  from . import registry
+  from .test_case import TestCase
+  from .test_suite import TestSuite
 
 
 class Test(object):

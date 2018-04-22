@@ -19,10 +19,15 @@ been applied. A test case's __call__ function does not take any arguments.
 """
 
 import inspect
+import os
 import sys
 
-from . import registry
-from . import test_result
+if 'RUNFILES_DIR' in os.environ:
+  import registry
+  import test_result
+else:
+  from . import registry
+  from . import test_result
 
 
 class TestCase(object):

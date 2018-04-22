@@ -19,8 +19,14 @@ test will become multiple test cases, then all of those test cases will be in
 the original test's suite.
 """
 
-from . import modules
-from . import registry
+import os
+
+if 'RUNFILES_DIR' in os.environ:
+  import modules
+  import registry
+else:
+  from . import modules
+  from . import registry
 
 
 class TestSuite(registry.AutoKeyRegistry):
