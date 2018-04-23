@@ -14,12 +14,7 @@
 
 """Context provides environmental information for a test."""
 
-import os
-
-if 'RUNFILES_DIR' in os.environ:
-  import registry
-else:
-  from . import registry
+from . import registry
 
 
 class Context(object):

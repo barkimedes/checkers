@@ -19,9 +19,9 @@ test will become multiple test cases, then all of those test cases will be in
 the original test's suite.
 """
 
-import os
+import sys
 
-if 'RUNFILES_DIR' in os.environ:
+if sys.version_info[0] < 3:
   import modules
   import registry
 else:

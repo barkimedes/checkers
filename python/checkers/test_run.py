@@ -14,20 +14,12 @@
 
 """Module defining a test run which is responsible for managing tests."""
 
-import os
 import sys
 
-if 'RUNFILES_DIR' in os.environ:
-  import context
-  import modules
-  import registry
-  import test_suite
-else:
-  from . import context
-  from . import modules
-  from . import registry
-  from . import test_suite
-
+from . import context
+from . import modules
+from . import registry
+from . import test_suite
 
 
 class _TestRunSuiteRegistry(registry.AutoKeyRegistry):

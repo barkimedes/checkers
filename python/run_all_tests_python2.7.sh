@@ -13,7 +13,7 @@
 #     limitations under the License.
 
 cd $(dirname $(dirname "$(readlink -f "$0")"))
-export PYTHONPATH=$PWD:$PYTHONPATH
+export PYTHONPATH=$PWD/python:$PYTHONPATH
 
 echo 'python/checkers/tests/checkers_test.py'
 python2.7 python/checkers/tests/checkers_test.py

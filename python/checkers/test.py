@@ -15,9 +15,9 @@
 """Module defining the concept of a test, which represents a test's steps."""
 
 import inspect
-import os
+import sys
 
-if 'RUNFILES_DIR' in os.environ:
+if sys.version_info[0] < 3:
   import modules
   import registry
   from test_case import TestCase
