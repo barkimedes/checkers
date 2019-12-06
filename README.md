@@ -529,6 +529,4 @@ As mentioned previously, tests are always stored in test runs in Checkers. So
 any test runner can be used that takes in test run(s) and executes them.
 
 ## Disclaimer
-This is not an official Google product (experimental or otherwise), it is just
-code that happens to be owned by Google.
-
+This is forked from a project I worked on when I was at Google (see [Google Checkers](https://github.com/google/checkers)). The Google version is (as far as I know) no longer maintained by anyone because I left! Feel free to use that version for Python 2.7, but if you use Python 3 or above, you should use this fork.
